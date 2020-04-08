@@ -20,25 +20,26 @@ class AlienInvasion:
 		pygame.display.set_caption("Alien Invasion")
 		self.ship = Ship(self)
 		
-
-
 	def run_game(self):
 		""" Start the main loop for the game """
 		while True:
+			self.check_events()
 			"""Watch for keyboard and mouse events"""
+			self.update_screen()
 			# to make the program respond to events, we write an event loop
+	def check_events(self):
+		# pygame.event.get() = a function that returns a list of events that have taken place since the last time the function was called 
+		for event in pygame.event.get():
+			if event.type == pygame.QUIT:
+				sys.exit()
 
-			# pygame.event.get() = a function that returns a list of events that have taken place since the last time the function was called 
-			for event in pygame.event.get():
-				if event.type == pygame.QUIT:
-					sys.exit()
-			# redraw the screen each pass of the lopp
-			self.screen.fill(self.settings.bg_color)
-			self.ship.blitme()
-			# tells Python to make the most recently drawn screen visible 
-			pygame.display.flip()
+	def update_screen(self):
+		# redraw the screen each pass of the lopp
+		self.screen.fill(self.settings.bg_color)
+		self.ship.blitme()
+		# tells Python to make the most recently drawn screen visible 
+		pygame.display.flip()
 			
-
 if __name__ == '__main__':
 	# Make a game instance and run the game
 	ai = AlienInvasion()
