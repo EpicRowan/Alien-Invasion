@@ -28,11 +28,13 @@ class AlienInvasion:
 			self.check_events()
 			"""Watch for keyboard and mouse events"""
 			self.ship.update()
+			self._update_bullets()
 			self.update_screen()
-			self.bullets.update()
-			# to make the program respond to events, we write an event loop
+
+
 	def check_events(self):
 		# pygame.event.get() = a function that returns a list of events that have taken place since the last time the function was called 
+		# to make the program respond to events, we write an event loop
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				sys.exit()
@@ -66,6 +68,15 @@ class AlienInvasion:
 		'''Create a new bullet and add to the bullets group'''
 		new_bullet = Bullet(self)
 		self.bullets.add(new_bullet)
+
+	def _update_bullets(self):
+		self.bullets.update()
+		# Get rid of bullets that have been fired
+		for bullet in self.bullets.copy():
+			if bullet.rect.bottom <= 0:
+				self.bullets.remove(bullet)
+		# print(len(self.bullets))
+
 
 	def update_screen(self):
 		# redraw the screen each pass of the lopp
