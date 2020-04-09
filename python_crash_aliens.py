@@ -37,10 +37,17 @@ class AlienInvasion:
 				if event.key == pygame.K_RIGHT:
 					# Move the ship right
 					self.ship.moving_right = True
+				elif event.key == pygame.K_LEFT:
+					# Move the ship left
+					self.ship.moving_left = True
+
 			elif event.type == pygame.KEYUP:
 				if event.key == pygame.K_RIGHT:
-					# Move the ship right
+					# Stop the ship moving right
 					self.ship.moving_right = False
+				elif event.key == pygame.K_LEFT:
+					# Stop the ship moving left
+					self.ship.moving_left = False
 
 	def update_screen(self):
 		# redraw the screen each pass of the lopp
