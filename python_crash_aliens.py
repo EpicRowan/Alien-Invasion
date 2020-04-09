@@ -2,6 +2,7 @@ import sys
 import pygame 
 from settings import Settings
 from ship import Ship
+from bullet import Bullet 
 
 class AlienInvasion:
 	"""Class to manage game assets and behavior"""
@@ -19,6 +20,7 @@ class AlienInvasion:
 		# when the game is activated, the surface will be redrawn on every pass through the loop and updated
 		pygame.display.set_caption("Alien Invasion")
 		self.ship = Ship(self)
+		self.bullets = pygame.sprite.Group()
 		
 	def run_game(self):
 		""" Start the main loop for the game """
@@ -27,6 +29,7 @@ class AlienInvasion:
 			"""Watch for keyboard and mouse events"""
 			self.ship.update()
 			self.update_screen()
+			self.bullets.update()
 			# to make the program respond to events, we write an event loop
 	def check_events(self):
 		# pygame.event.get() = a function that returns a list of events that have taken place since the last time the function was called 
@@ -46,6 +49,9 @@ class AlienInvasion:
 		elif event.key == pygame.K_LEFT:
 			# Move the ship left
 			self.ship.moving_left = True
+		elif event.key == pygame.K_SPACE:
+			# Fire bullets on space bar
+			self._fire_bullet()
 
 	def _check_keyup_events(self, event):
 		'''Respond to key releasing''' 
@@ -56,11 +62,19 @@ class AlienInvasion:
 			# Stop the ship moving left
 			self.ship.moving_left = False
 
+	def _fire_bullet(self):
+		'''Create a new bullet and add to the bullets group'''
+		new_bullet = Bullet(self)
+		self.bullets.add(new_bullet)
+
 	def update_screen(self):
 		# redraw the screen each pass of the lopp
 		self.screen.fill(self.settings.bg_color)
 		self.ship.blitme()
-		# tells Python to make the most recently drawn screen visible 
+
+		for bullet in self.bullets.sprites():
+			bullet.draw_bullet()
+		# tells Python to make the most recently drawn screen visible 			
 		pygame.display.flip()
 			
 if __name__ == '__main__':
