@@ -24,9 +24,11 @@ class Ship:
 
 	def update(self):
 		'''Update the ships position based on the movement flag'''
-		if self.moving_right:
+		# if the x coordinate of the right edge is less than self.screen_rect, the ship hasnt reached right edge
+		if self.moving_right and self.rect.right < self.screen_rect.right:
 			self.x += self.settings.ship_speed
-		if self.moving_left:
+		# if the balue of the left side of rect is > 0, ship isnt at the left edge	
+		if self.moving_left and self.rect.left > 0:
 			self.x -= self.settings.ship_speed
 		self.rect.x = self.x
 
